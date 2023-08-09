@@ -32,6 +32,7 @@
   .rps-gameplay {
     max-width: 500px;
     width: 100%;
+    height: auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     margin: 0 auto;
@@ -40,17 +41,30 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 150px;
+      .hand.bobbing {
+        animation: bobbing 3s ease infinite;
+      }
       .hand img {
         width: 85px;
       }
       &.left {
         .hand {
           transform: rotate(90deg);
+          &.bobbing {
+            transform-origin: center;
+            animation: bobbing-left 3s ease infinite;
+          }
         }
       }
       &.right {
+        transform: scale(1, -1);
         .hand {
-          transform: rotate(-90deg) scaleX(-1);
+          transform: rotate(-90deg);
+          &.bobbing {
+            transform-origin: center;
+            animation: bobbing-right 3s ease infinite;
+          }
         }
       }
       [data-result="won"] {
@@ -77,13 +91,48 @@
     }
   }
   .rps-menu {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     margin-left: -40px; // Compensate for ::marker width
     margin-top: 70px;
-    .rps-play-again {
-      display: none;
-    }
+  }
+}
+
+@keyframes bobbing-left {
+  0%,
+  100% {
+    transform: rotate(90deg);
+  }
+  20% {
+    transform: translate(-5px, 5px) rotate(85deg);
+  }
+  40% {
+    transform: translate(5px, -5px) rotate(95deg);
+  }
+  60% {
+    transform: translate(-5px, 5px) rotate(85deg);
+  }
+  80% {
+    transform: translate(5px, -5px) rotate(95deg);
+  }
+}
+
+@keyframes bobbing-right {
+  0%,
+  100% {
+    transform: rotate(-90deg);
+  }
+  20% {
+    transform: translate(-5px, 5px) rotate(-85deg);
+  }
+  40% {
+    transform: translate(5px, -5px) rotate(-95deg);
+  }
+  60% {
+    transform: translate(-5px, 5px) rotate(-85deg);
+  }
+  80% {
+    transform: translate(5px, -5px) rotate(-95deg);
   }
 }

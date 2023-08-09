@@ -4,10 +4,38 @@ import {
   getLeftHand,
   getRightHand,
   setCurrentMode,
+  getCurrentMode,
+  addGameResult,
 } from "./data-store";
 
+import rockImg from "../assets/rock.svg";
+import paperImg from "../assets/paper.svg";
+import scissorsImg from "../assets/scissors.svg";
+
+// DOM elements
 const countdownElement = document.querySelector(".rps-status .countdown");
 const resultText = document.querySelector(".rps-status .result");
+const leftHand = document.querySelector(".rps-gameplay .player.left");
+const rightHand = document.querySelector(".rps-gameplay .player.right");
+const leftHandImg = document.querySelector(".rps-gameplay .player.left img");
+const rightHandImg = document.querySelector(".rps-gameplay .player.right img");
+const handPicker = document.querySelector(".hand-picker .hands");
+
+const computeWinner = (leftHand, rightHand) => {
+  if (leftHand === rightHand) {
+    return "draw";
+  }
+
+  if (
+    (leftHand === "rock" && rightHand === "scissors") ||
+    (leftHand === "paper" && rightHand === "rock") ||
+    (leftHand === "scissors" && rightHand === "paper")
+  ) {
+    return "left";
+  }
+
+  return "right";
+};
 
 const getRandomHand = () => {
   const hands = ["rock", "paper", "scissors"];
@@ -37,111 +65,144 @@ const setResultText = (result, mode) => {
   resultText.style.display = "block";
 };
 
+const handImages = {
+  rock: rockImg,
+  paper: paperImg,
+  scissors: scissorsImg,
+};
+
+const updateHandsRender = (leftHand, rightHand) => {
+  leftHandImg.setAttribute("src", handImages[leftHand]);
+  rightHandImg.setAttribute("src", handImages[rightHand]);
+};
+
+const updateHandsState = (result) => {
+  switch (result) {
+    case "left":
+      leftHand.attributes["data-result"].value = "win";
+      rightHand.attributes["data-result"].value = "lose";
+      break;
+    case "right":
+      leftHand.attributes["data-result"].value = "lose";
+      rightHand.attributes["data-result"].value = "win";
+      break;
+    case "draw":
+      leftHand.attributes["data-result"].value = "draw";
+      rightHand.attributes["data-result"].value = "draw";
+      break;
+    default:
+      leftHand.attributes["data-result"].value = "pending";
+      rightHand.attributes["data-result"].value = "pending";
+      break;
+  }
+};
+
+const updateCountdown = (countdown) => {
+  countdownElement.textContent = countdown;
+};
+
+const handleCountdownEnd = (mode) => {
+  countdownElement.style.display = "none";
+
+  const rightHand = getRandomHand();
+  setRighthand(rightHand);
+
+  let leftHand;
+  if (mode === "cvc") {
+    leftHand = getRandomHand();
+    setLefthand(leftHand);
+  }
+
+  const gameResult = computeWinner(getLeftHand(), getRightHand());
+  setResultText(gameResult, mode);
+  updateHandsRender(getLeftHand(), getRightHand());
+  updateHandsState(gameResult);
+  addGameResult(mode, getLeftHand(), getRightHand(), gameResult);
+
+  document.querySelector(".rps-menu").style.display = "flex";
+};
+
 const startRps = (mode) => {
   let countdown = 3;
 
+  const handElements = document.querySelectorAll(".rps-gameplay .player .hand");
+  handElements.forEach((hand) => hand.classList.add("bobbing"));
+
+  updateCountdown(countdown);
+
   const countdownInterval = setInterval(() => {
-    // Update the countdown display
-    countdownElement.textContent = countdown;
-
-    if (countdown <= 0) {
-      // Clear the interval when countdown reaches 0
-      clearInterval(countdownInterval);
-      countdownElement.style.display = "none";
-
-      // Randomly select a hand for the opponent
-      const rightHand = getRandomHand();
-      setRighthand(rightHand);
-
-      // If in cvc mode, randomly select a hand for the player (also a computer in this case) as well
-      if (mode === "cvc") {
-        const leftHand = getRandomHand();
-        setLefthand(leftHand);
-      }
-
-      const gameResult = computeWinner(getLeftHand(), getRightHand());
-      setResultText(gameResult, mode);
-
-      // Display "Play again" button
-      const playAgainButton = document.querySelector(
-        ".rps-menu .rps-play-again",
-      );
-      playAgainButton.style.display = "list-item";
-    }
-
+    // eslint-disable-next-line no-plusplus
     countdown--;
-  }, 1000); // 1-second interval
+
+    updateCountdown(countdown);
+
+    if (countdown < 1) {
+      clearInterval(countdownInterval);
+      handleCountdownEnd(mode);
+
+      handElements.forEach((hand) => hand.classList.remove("bobbing"));
+    }
+  }, 1000);
 };
+
+handPicker.addEventListener("click", (event) => {
+  // Check if the game is in pvc mode
+  const mode = getCurrentMode(); // Assuming you have a function to get the current mode
+  if (mode !== "pvc") return;
+
+  const { target } = event;
+  if (
+    target.tagName.toLowerCase() === "img" &&
+    target.hasAttribute("data-hand")
+  ) {
+    const hand = target.getAttribute("data-hand");
+    setLefthand(hand);
+    document.querySelector(".hand-picker").style.display = "none";
+    document.querySelector(".rps-gameplay").style.display = "grid";
+    startRps(mode);
+  }
+});
 
 const initializeGame = (mode) => {
   if (mode === "pvc") {
-    // Display the hand picker and store the picked hand in the local storage
-    const handPicker = document.querySelector(".hand-picker .hands");
-
-    handPicker.addEventListener("click", (event) => {
-      const target = event.target;
-
-      if (
-        target.tagName.toLowerCase() === "img" &&
-        target.hasAttribute("data-hand")
-      ) {
-        // Retrieve the hand type from the data-hand attribute
-        const hand = target.getAttribute("data-hand");
-
-        // Store the picked hand in the local storage for later use
-        setLefthand(hand);
-        document.querySelector(".hand-picker").style.display = "none";
-        document.querySelector(".rps-gameplay").style.display = "grid";
-        startRps(mode);
-      }
-    });
+    document.querySelector(".hand-picker").style.display = "grid";
+    document.querySelector(".rps-gameplay").style.display = "none";
   } else if (mode === "cvc") {
-    // If we are in cvc mode, we can just start the game right away
     startRps(mode);
   }
 };
 
-const handleRestart = (mode) => {
-  // Reset the picked hands
+const resetGameElements = () => {
+  // Reset game state
   setLefthand(null);
   setRighthand(null);
+
+  // Reset game elements
+  document.querySelector(".rps-menu").style.display = "none";
+  countdownElement.style.display = "block";
+  countdownElement.textContent = "3";
+  resultText.style.display = "none";
+  leftHandImg.setAttribute("src", handImages.rock);
+  rightHandImg.setAttribute("src", handImages.rock);
+};
+
+const handleRestart = (mode) => {
+  resetGameElements();
+
   if (mode === "pvc") {
     // Display the hand picker and hide the gameplay if we are in pvc mode
     document.querySelector(".hand-picker").style.display = "grid";
     document.querySelector(".rps-gameplay").style.display = "none";
   }
-  // Reset game elements
-  document.querySelector(".rps-menu .rps-play-again").style.display = "none";
-  countdownElement.style.display = "block";
-  countdownElement.textContent = "3";
-  resultText.style.display = "none";
+
   // Reinitialize the game
   initializeGame(mode);
 };
 
 const handleMainMenu = () => {
-  // Reset game state
-  setLefthand(null);
-  setRighthand(null);
+  resetGameElements();
+  // Reset current mode
   setCurrentMode(null);
-  // Reset game elements
-  countdownElement.style.display = "block";
-  countdownElement.textContent = "3";
-  resultText.style.display = "none";
-};
-
-const computeWinner = (leftHand, rightHand) => {
-  if (leftHand === rightHand) {
-    return "draw";
-  } else if (
-    (leftHand === "rock" && rightHand === "scissors") ||
-    (leftHand === "paper" && rightHand === "rock") ||
-    (leftHand === "scissors" && rightHand === "paper")
-  ) {
-    return "left";
-  } else {
-    return "right";
-  }
 };
 
 export { initializeGame, handleRestart, handleMainMenu, computeWinner };

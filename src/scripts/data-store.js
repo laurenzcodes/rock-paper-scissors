@@ -57,14 +57,13 @@ const getRightHand = () => {
 };
 
 // Add a detailed result to the game history
-const addGameResult = (type, hand1, hand2, winner, loser) => {
+const addGameResult = (type, hand1, hand2, gameResult) => {
   const gameState = getGameState();
   gameState.gameHistory.push({
     type, // "pvc" or "cvc"
     hand1, // e.g., "rock"
     hand2, // e.g., "scissors"
-    winner, // e.g., "Player" or "Computer"
-    loser, // e.g., "Computer" or "Computer 2"
+    gameResult, // left, right, or draw
   });
   localStorage.setItem("gameState", JSON.stringify(gameState));
 };
@@ -86,6 +85,3 @@ export {
   getCurrentMode,
   setCurrentMode,
 };
-
-// Call initializeLocalStorage when the site loads to set up the initial state
-initializeLocalStorage();

@@ -1,46 +1,6 @@
 import { initializeGame, handleRestart, handleMainMenu } from "./game-logic";
 import { getCurrentMode, setCurrentMode } from "./data-store";
 
-const uiLogic = () => {
-  const newGameMenu = document.querySelector(".new-game .menu-options");
-  const gameMenu = document.querySelector(".rps .rps-menu");
-
-  if (newGameMenu) {
-    newGameMenu.addEventListener("click", (event) => {
-      const target = event.target;
-
-      if (target.tagName.toLowerCase() === "li") {
-        const action = target.getAttribute("data-action");
-
-        if (action === "pvc" || action === "cvc") {
-          setCurrentMode(action);
-          startGame(action);
-        }
-      }
-    });
-  }
-
-  if (gameMenu) {
-    gameMenu.addEventListener("click", (event) => {
-      const target = event.target;
-
-      if (target.tagName.toLowerCase() === "li") {
-        const action = target.getAttribute("data-action");
-
-        if (action === "menu") {
-          handleMainMenu();
-          // Hide the game and show the main menu
-          document.querySelector(".main-menu").style.display = "flex";
-          document.querySelector(".game").style.display = "none";
-        } else if (action === "playAgain") {
-          const currentMode = getCurrentMode();
-          handleRestart(currentMode);
-        }
-      }
-    });
-  }
-};
-
 const startGame = (mode) => {
   // Hide the main menu and show the game view
   document.querySelector(".main-menu").style.display = "none";
@@ -61,6 +21,46 @@ const startGame = (mode) => {
 
   // Initiate the game logic
   initializeGame(mode);
+};
+
+const uiLogic = () => {
+  const newGameMenu = document.querySelector(".new-game .menu-options");
+  const gameMenu = document.querySelector(".rps .rps-menu");
+
+  if (newGameMenu) {
+    newGameMenu.addEventListener("click", (event) => {
+      const { target } = event;
+
+      if (target.tagName.toLowerCase() === "li") {
+        const action = target.getAttribute("data-action");
+
+        if (action === "pvc" || action === "cvc") {
+          setCurrentMode(action);
+          startGame(action);
+        }
+      }
+    });
+  }
+
+  if (gameMenu) {
+    gameMenu.addEventListener("click", (event) => {
+      const { target } = event;
+
+      if (target.tagName.toLowerCase() === "li") {
+        const action = target.getAttribute("data-action");
+
+        if (action === "menu") {
+          handleMainMenu();
+          // Hide the game and show the main menu
+          document.querySelector(".main-menu").style.display = "flex";
+          document.querySelector(".game").style.display = "none";
+        } else if (action === "playAgain") {
+          const currentMode = getCurrentMode();
+          handleRestart(currentMode);
+        }
+      }
+    });
+  }
 };
 
 export default uiLogic;
