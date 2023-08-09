@@ -1,8 +1,11 @@
+.wrapper {
+  max-width: $content-width;
+  margin: 0 auto;
+}
+
 .main-menu {
   display: flex;
   justify-content: space-between;
-  max-width: 650px;
-  margin: 0 auto;
 }
 
 .new-game {
@@ -13,23 +16,25 @@
     padding-left: 40px;
     margin-bottom: 32px;
   }
-  .menu-options {
-    margin: 0;
-    li {
-      font-size: 21px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      margin-bottom: 8px;
-      cursor: pointer;
-    }
-    li::marker {
-      content: none;
-    }
-    li:hover {
-      &::marker {
-        content: url("./assets/point.svg");
-      }
+}
+
+.menu-options {
+  margin: 0;
+  li {
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+  li::marker {
+    content: none;
+  }
+  li:hover {
+    text-decoration: underline;
+    &::marker {
+      content: url("./assets/point.svg");
     }
   }
 }

@@ -1,0 +1,86 @@
+.rps {
+  .game-type {
+    margin-bottom: 32px;
+    font-size: 32px;
+    font-weight: 500;
+  }
+  .hand-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 280px;
+    margin: 0 auto;
+    p {
+      font-size: 16px;
+      font-weight: 400;
+    }
+    .hands {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      img {
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+        &:hover {
+          transform: translateY(-4px) rotate(5deg);
+          transform-origin: bottom right;
+        }
+      }
+    }
+  }
+
+  .rps-gameplay {
+    max-width: 500px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 0 auto;
+
+    .player {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .hand img {
+        width: 85px;
+      }
+      &.left {
+        .hand {
+          transform: rotate(90deg);
+        }
+      }
+      &.right {
+        .hand {
+          transform: rotate(-90deg) scaleX(-1);
+        }
+      }
+      [data-result="won"] {
+        .hand img {
+          color: $green;
+        }
+      }
+    }
+    .rps-status {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-family: "Patrick Hand";
+      font-weight: 400;
+      .countdown {
+        font-size: 64px;
+      }
+      .result {
+        display: none;
+        font-size: 24px;
+        text-transform: uppercase;
+      }
+    }
+  }
+  .rps-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -40px; // Compensate for ::marker width
+    margin-top: 70px;
+  }
+}

@@ -15,5 +15,11 @@
       ></include>
       <include src="partials/previous-games.html"></include>
     </div>
+    <div class="game" style="display: none">
+      <include
+        src="partials/rps-game.html"
+        locals='{"player": "Player", "computer": "Computer", "whichHand": "Which hand do you want to play?", "playAgain": "Play again", "menu": "Back to menu"}'
+      ></include>
+    </div>
   </section>
 </main>

@@ -1,0 +1,34 @@
+<section class="rps">
+  <h2 class="game-type">
+    <!-- Dynamically filled depending on menu selection -->
+  </h2>
+  <div data-visibility="pvc" class="hand-picker">
+    <p>{{ whichHand }}</p>
+    <div class="hands">
+      <img data-hand="rock" src="assets/rock.svg" alt="Rock" />
+      <img data-hand="paper" src="assets/paper.svg" alt="Paper" />
+      <img data-hand="scissors" src="assets/scissors.svg" alt="Scissors" />
+    </div>
+  </div>
+  <div class="rps-gameplay">
+    <div data-result="won" class="player left">
+      <div class="hand">
+        <!-- Default hand is Rock/Fist until the "real" hand is revealed -->
+        <img src="assets/rock.svg" alt="Rock" />
+      </div>
+    </div>
+    <div class="rps-status">
+      <span class="countdown">3</span>
+      <span class="result">Player won!</span>
+    </div>
+    <div data-result="pending" class="player right">
+      <div class="hand">
+        <img src="assets/rock.svg" alt="Rock" />
+      </div>
+    </div>
+  </div>
+  <ol class="rps-menu menu-options">
+    <li data-action="playAgain">{{ playAgain }}</li>
+    <li data-action="menu">{{ menu }}</li>
+  </ol>
+</section>

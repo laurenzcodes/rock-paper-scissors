@@ -1,5 +1,6 @@
 .header .container {
-  margin-top: 32px;
+  margin: 32px auto 0;
+  max-width: $content-width;
 }
 
 h1.title {
