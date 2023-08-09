@@ -1,4 +1,7 @@
-const uiScript = () => {
+import { initializeGame, handleRestart, handleMainMenu } from "./game-logic";
+import { getCurrentMode, setCurrentMode } from "./data-store";
+
+const uiLogic = () => {
   const newGameMenu = document.querySelector(".new-game .menu-options");
   const gameMenu = document.querySelector(".rps .rps-menu");
 
@@ -10,6 +13,7 @@ const uiScript = () => {
         const action = target.getAttribute("data-action");
 
         if (action === "pvc" || action === "cvc") {
+          setCurrentMode(action);
           startGame(action);
         }
       }
@@ -24,11 +28,13 @@ const uiScript = () => {
         const action = target.getAttribute("data-action");
 
         if (action === "menu") {
+          handleMainMenu();
           // Hide the game and show the main menu
           document.querySelector(".main-menu").style.display = "flex";
           document.querySelector(".game").style.display = "none";
         } else if (action === "playAgain") {
-          // Reinitiate the game logic for playing again (placeholder)
+          const currentMode = getCurrentMode();
+          handleRestart(currentMode);
         }
       }
     });
@@ -40,10 +46,11 @@ const startGame = (mode) => {
   document.querySelector(".main-menu").style.display = "none";
   document.querySelector(".game").style.display = "block";
 
-  // Set game type
+  // Set game type title
   document.querySelector(".rps .game-type").innerText =
-    mode === "pvc" ? "Player vs Computer" : "Computer vs Computer";
+    mode === "pvc" ? "Player vs Computer" : "R2D2 vs C3PO";
 
+  // Show the hand picker if the game is player vs computer
   if (mode === "pvc") {
     document.querySelector(".rps .hand-picker").style.display = "block";
     document.querySelector(".rps .rps-gameplay").style.display = "none";
@@ -51,9 +58,9 @@ const startGame = (mode) => {
     document.querySelector(".rps .hand-picker").style.display = "none";
     document.querySelector(".rps .rps-gameplay").style.display = "grid";
   }
-  // Show or hide the hand-picker based on the selected mode
-  document.querySelector(".rps .hand-picker").style.display =
-    mode === "pvc" ? "block" : "none";
+
+  // Initiate the game logic
+  initializeGame(mode);
 };
 
-export default uiScript;
+export default uiLogic;

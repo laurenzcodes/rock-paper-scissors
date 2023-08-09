@@ -1,3 +1,8 @@
-import uiScript from "./scripts/ui-script";
+import uiLogic from "./scripts/ui-logic";
+import { initializeLocalStorage } from "./scripts/data-store";
 
-uiScript();
+// Initialize the local storage for the game state
+initializeLocalStorage();
+
+// Start the UI script for the application
+uiLogic();

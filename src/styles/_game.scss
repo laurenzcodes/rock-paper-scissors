@@ -82,5 +82,8 @@
     align-items: center;
     margin-left: -40px; // Compensate for ::marker width
     margin-top: 70px;
+    .rps-play-again {
+      display: none;
+    }
   }
 }
