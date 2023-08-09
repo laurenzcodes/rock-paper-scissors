@@ -74,6 +74,13 @@ const getGameHistory = () => {
   return gameState.gameHistory;
 };
 
+// Clear the game history
+const clearGameHistory = () => {
+  const gameState = getGameState();
+  gameState.gameHistory = [];
+  localStorage.setItem("gameState", JSON.stringify(gameState));
+};
+
 export {
   initializeLocalStorage,
   setLefthand,
@@ -82,6 +89,7 @@ export {
   getRightHand,
   addGameResult,
   getGameHistory,
+  clearGameHistory,
   getCurrentMode,
   setCurrentMode,
 };

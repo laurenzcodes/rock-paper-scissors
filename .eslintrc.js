@@ -22,5 +22,6 @@ module.exports = {
   },
   rules: {
     "no-shadow": "off",
+    "import/prefer-default-export": "off",
   },
 };

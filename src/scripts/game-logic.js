@@ -11,6 +11,7 @@ import {
 import rockImg from "../assets/rock.svg";
 import paperImg from "../assets/paper.svg";
 import scissorsImg from "../assets/scissors.svg";
+import { populatePreviousGames } from "./previous-games";
 
 // DOM elements
 const countdownElement = document.querySelector(".rps-status .countdown");
@@ -203,6 +204,7 @@ const handleMainMenu = () => {
   resetGameElements();
   // Reset current mode
   setCurrentMode(null);
+  populatePreviousGames();
 };
 
 export { initializeGame, handleRestart, handleMainMenu, computeWinner };
