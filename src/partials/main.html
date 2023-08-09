@@ -1,5 +1,5 @@
 <main class="wrapper">
-  <header class="header section">
+  <header class="header">
     <div class="container">
       <include
         src="partials/header.html"
@@ -7,4 +7,13 @@
       ></include>
     </div>
   </header>
+  <section class="game-view">
+    <div class="main-menu">
+      <include
+        src="partials/new-game.html"
+        locals='{ "pvc": "Player vs Computer", "cvc": "Computer vs Computer"}'
+      ></include>
+      <include src="partials/previous-games.html"></include>
+    </div>
+  </section>
 </main>

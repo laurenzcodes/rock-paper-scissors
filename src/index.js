@@ -1,3 +1,3 @@
-import helloWorld from "./scripts/helloWorld";
+import uiScript from "./scripts/ui-script";
 
-helloWorld();
+uiScript();
