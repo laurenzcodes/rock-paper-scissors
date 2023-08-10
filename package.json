@@ -2,9 +2,8 @@
   "name": "rock-paper-scissors",
   "version": "1.0.0",
   "description": "A rock paper scissors game built in vanilla js",
-  "main": "index.js",
   "scripts": {
-    "clean": "rimraf dist .parcel-cache",
+    "clean": "rimraf dist",
     "start": "npm run clean && parcel serve ./src/index.html",
     "build": "npm run clean && parcel build ./src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
