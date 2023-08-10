@@ -1,5 +1,9 @@
 # Rock Paper Scissors
 
+#### Play it here (click the badge)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5b0b1384-e236-44d5-a4e1-e64c3308caf8/deploy-status)](https://rps-pareto.netlify.app)
+
 ## Description
 
 Rock Paper Scissors is a simple browser game built with HTML, SCSS, and Vanilla JS. The game allows players to either play against a computer (PvC) or watch a computer vs computer match (CvC). The history of previous games is also displayed.
