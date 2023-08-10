@@ -17,8 +17,10 @@
     .hands {
       display: flex;
       justify-content: space-between;
+      align-items: flex-end;
       width: 100%;
       img {
+        height: fit-content;
         cursor: pointer;
         transition: transform 0.2s ease-in-out;
         &:hover {
