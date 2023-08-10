@@ -88,3 +88,8 @@ Please note that test coverage for the following files may appear to be limited.
 - `scripts/ui-logic.js`
 - `scripts/game-logic.js`
 - `scripts/previous-games.js`
+
+## Next steps (not included)
+
+- Run cypress tests in the CD pipeline
+- Add Multiplayer (PvP)

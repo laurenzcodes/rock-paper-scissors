@@ -6,9 +6,10 @@
     "clean": "rimraf dist",
     "start": "npm run clean && parcel serve ./src/index.html",
     "build": "npm run clean && parcel build ./src/index.html",
-    "test": "jest",
+    "test": "jest --ci",
     "cypress:open": "concurrently \"npm start\" \"cypress open\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "netlify:build": "npm run test && npm run build"
   },
   "repository": {
     "type": "git",
