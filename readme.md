@@ -6,7 +6,7 @@
 
 ## Description
 
-Rock Paper Scissors is a simple browser game built with HTML, SCSS, and Vanilla JS. The game allows players to either play against a computer (PvC) or watch a computer vs computer match (CvC). The history of previous games is also displayed.
+Rock Paper Scissors is a simple browser game for young and old built with HTML, SCSS, and Vanilla JS. The game allows players to either play against a computer (PvC) or watch a computer vs computer match (CvC). The history of previous games is also displayed. It works on desktop and mobile phones.
 
 ## Installation and Setup
 
