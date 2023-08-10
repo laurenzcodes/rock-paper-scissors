@@ -47,6 +47,9 @@
       }
       .hand img {
         width: 85px;
+        @media screen and (max-width: $bp-sm) {
+          width: 70px;
+        }
       }
       &.left {
         .hand {
@@ -67,11 +70,6 @@
           }
         }
       }
-      [data-result="won"] {
-        .hand img {
-          color: $green;
-        }
-      }
     }
     .rps-status {
       text-align: center;
@@ -87,6 +85,9 @@
         display: none;
         font-size: 24px;
         text-transform: uppercase;
+        @media screen and (max-width: $bp-sm) {
+          font-size: 20px;
+        }
       }
     }
   }

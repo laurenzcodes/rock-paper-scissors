@@ -6,11 +6,26 @@
 .main-menu {
   display: flex;
   justify-content: space-between;
+  padding-right: 32px;
+
+  @media screen and (max-width: $bp-md) {
+    padding-right: 0;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .new-game {
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: $bp-md) {
+    margin-left: -20px;
+    margin-bottom: 24px;
+    align-items: center;
+    h3 {
+      text-align: center;
+    }
+  }
   h3 {
     text-align: left;
     padding-left: 40px;
@@ -27,6 +42,9 @@
     line-height: normal;
     margin-bottom: 8px;
     cursor: pointer;
+    @media screen and (max-width: $bp-md) {
+      text-align: center;
+    }
   }
   li::marker {
     content: none;
@@ -44,6 +62,7 @@
   flex-direction: column;
   align-items: flex-start;
   width: 175px;
+
   h3 {
     margin-bottom: 6px;
   }
@@ -62,6 +81,9 @@
     overflow-y: auto;
     width: 100%;
     margin-top: 12px;
+    @media screen and (max-width: $bp-sm) {
+      max-height: unset;
+    }
 
     .game-card {
       border-radius: 4px;
