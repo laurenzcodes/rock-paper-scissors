@@ -42,8 +42,6 @@ Rock Paper Scissors is a simple browser game built with HTML, SCSS, and Vanilla 
 - **Styling:** Used SCSS for better styling structure (nested rules and variables).
 - **Code Style:** Used a combination of Prettier and ESLint with the Airbnb ruleset (and some custom overrides) to ensure code style consistency.
 
-Certainly! Here's the updated Code Structure section with more specific descriptions based on the content you provided:
-
 ## Code Structure
 
 Breakdown of the files in the `./src` folder:
