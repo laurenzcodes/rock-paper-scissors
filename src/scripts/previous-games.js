@@ -8,13 +8,13 @@ const handImages = {
   paper: paperImg,
   scissors: scissorsImg,
 };
-const clearHistoryButton = document.querySelector(
-  '[data-action="clearHistory"]',
-);
 
 const populatePreviousGames = () => {
   const gameHistory = getGameHistory().reverse() || [];
   const gamesList = document.querySelector(".games-list");
+  const clearHistoryButton = document.querySelector(
+    '[data-action="clearHistory"]',
+  );
 
   // Only show clear history button if there is history
   if (gameHistory.length > 0) {
@@ -86,10 +86,18 @@ const populatePreviousGames = () => {
   });
 };
 
-// Clear game history
-clearHistoryButton.addEventListener("click", () => {
-  clearGameHistory();
-  populatePreviousGames();
-});
+const initializePreviousGames = () => {
+  const clearHistoryButton = document.querySelector(
+    '[data-action="clearHistory"]',
+  );
 
-export { populatePreviousGames };
+  // Clear game history
+  if (clearHistoryButton) {
+    clearHistoryButton.addEventListener("click", () => {
+      clearGameHistory();
+      populatePreviousGames();
+    });
+  }
+};
+
+export { populatePreviousGames, initializePreviousGames };

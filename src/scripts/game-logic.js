@@ -20,7 +20,6 @@ const leftHand = document.querySelector(".rps-gameplay .player.left");
 const rightHand = document.querySelector(".rps-gameplay .player.right");
 const leftHandImg = document.querySelector(".rps-gameplay .player.left img");
 const rightHandImg = document.querySelector(".rps-gameplay .player.right img");
-const handPicker = document.querySelector(".hand-picker .hands");
 
 const computeWinner = (leftHand, rightHand) => {
   if (leftHand === rightHand) {
@@ -43,27 +42,14 @@ const getRandomHand = () => {
   return hands[Math.floor(Math.random() * hands.length)];
 };
 
-const setResultText = (result, mode) => {
-  if (mode === "pvc") {
-    if (result === "draw") {
-      resultText.textContent = "Draw!";
-    } else if (result === "left") {
-      resultText.textContent = "You win!";
-    } else {
-      resultText.textContent = "You lose!";
-    }
-  }
+const getResultText = (result, mode) => {
+  const outcomes = {
+    draw: "Draw!",
+    left: mode === "pvc" ? "You win!" : "R2D2 wins!",
+    right: mode === "pvc" ? "You lose!" : "C3PO wins!",
+  };
 
-  if (mode === "cvc") {
-    if (result === "draw") {
-      resultText.textContent = "Draw!";
-    } else if (result === "left") {
-      resultText.textContent = "R2D2 wins!";
-    } else {
-      resultText.textContent = "C3PO wins!";
-    }
-  }
-  resultText.style.display = "block";
+  return outcomes[result];
 };
 
 const handImages = {
@@ -115,7 +101,8 @@ const handleCountdownEnd = (mode) => {
   }
 
   const gameResult = computeWinner(getLeftHand(), getRightHand());
-  setResultText(gameResult, mode);
+  resultText.textContent = getResultText(gameResult, mode);
+  resultText.style.display = "block";
   updateHandsRender(getLeftHand(), getRightHand());
   updateHandsState(gameResult);
   addGameResult(mode, getLeftHand(), getRightHand(), gameResult);
@@ -145,24 +132,31 @@ const startRps = (mode) => {
     }
   }, 1000);
 };
+const initializeHandPickerEventListener = () => {
+  const handPicker = document.querySelector(".hand-picker .hands");
 
-handPicker.addEventListener("click", (event) => {
-  // Check if the game is in pvc mode
-  const mode = getCurrentMode(); // Assuming you have a function to get the current mode
-  if (mode !== "pvc") return;
+  if (handPicker) {
+    handPicker.addEventListener("click", (event) => {
+      // Check if the game is in pvc mode
+      const mode = getCurrentMode();
+      if (mode !== "pvc") return;
 
-  const { target } = event;
-  if (
-    target.tagName.toLowerCase() === "img" &&
-    target.hasAttribute("data-hand")
-  ) {
-    const hand = target.getAttribute("data-hand");
-    setLefthand(hand);
-    document.querySelector(".hand-picker").style.display = "none";
-    document.querySelector(".rps-gameplay").style.display = "grid";
-    startRps(mode);
+      const { target } = event;
+      if (
+        target.tagName.toLowerCase() === "img" &&
+        target.hasAttribute("data-hand")
+      ) {
+        const hand = target.getAttribute("data-hand");
+        setLefthand(hand);
+        document.querySelector(".hand-picker").style.display = "none";
+        document.querySelector(".rps-gameplay").style.display = "grid";
+        startRps(mode);
+      }
+    });
   }
-});
+};
+
+initializeHandPickerEventListener();
 
 const initializeGame = (mode) => {
   if (mode === "pvc") {
@@ -207,4 +201,11 @@ const handleMainMenu = () => {
   populatePreviousGames();
 };
 
-export { initializeGame, handleRestart, handleMainMenu, computeWinner };
+export {
+  initializeGame,
+  handleRestart,
+  handleMainMenu,
+  computeWinner,
+  getRandomHand,
+  getResultText,
+};
