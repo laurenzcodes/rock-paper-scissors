@@ -58,6 +58,7 @@ Breakdown of the files in the `./src` folder:
   - `game-logic.js`: Contains core game logic and interactions.
   - `previous-games.js`: Responsible for rendering previous game records.
   - `ui-logic.js`: Manages UI interactions and updates.
+  - `tests`: Contains unit tests
 - `styles`: Contains various SCSS files for specific parts of the UI.
 
 ## Testing
@@ -70,9 +71,21 @@ To execute the unit tests for the project, simply run the following command:
 npm t
 ```
 
+### End-to-End Testing with Cypress
+
+To run the end-to-end tests for the application, use the command:
+
+```bash
+npm run cypress:open
+```
+
+This command concurrently launches the local development server and the Cypress testing suite.
+
+You can find the Cypress test files within the `./cypress/e2e/` directory. Currently, there are tests for both "Player vs. Computer" and "Computer vs. Computer" modes, which together provide comprehensive coverage of the site's primary user interactions.
+
 ### Testing Strategy Overview
 
-Please note that test coverage for the following files may appear to be limited. This is primarily because many functions within these files interact directly with the UI, making them more suitable for evaluation through integration tests (using `cypress`) rather than unit tests.
+Please note that test coverage for the following files may appear to be limited. This is primarily because many functions within these files interact directly with the DOM, making them more suitable for evaluation through E2E tests (using `cypress`) rather than unit tests.
 
 - `scripts/ui-logic.js`
 - `scripts/game-logic.js`

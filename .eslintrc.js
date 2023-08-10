@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     jest: true,
   },
-  extends: ["airbnb-base", "prettier"],
+  extends: ["airbnb-base", "plugin:cypress/recommended", "prettier"],
   plugins: ["jest"],
 
   overrides: [
@@ -17,6 +17,17 @@ module.exports = {
         sourceType: "script",
       },
     },
+    {
+      // Disable jest rules for cypress tests
+      files: ["*.cy.js"],
+      rules: {
+        "jest/no-disabled-tests": "off",
+        "jest/no-focused-tests": "off",
+        "jest/no-identical-title": "off",
+        "jest/prefer-to-have-length": "off",
+        "jest/valid-expect": "off",
+      },
+    },
   ],
   parserOptions: {
     ecmaVersion: "latest",
@@ -25,6 +36,7 @@ module.exports = {
   rules: {
     "no-shadow": "off",
     "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",

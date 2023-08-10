@@ -60,7 +60,9 @@ const handImages = {
 
 const updateHandsRender = (leftHand, rightHand) => {
   leftHandImg.setAttribute("src", handImages[leftHand]);
+  leftHandImg.setAttribute("alt", leftHand);
   rightHandImg.setAttribute("src", handImages[rightHand]);
+  rightHandImg.setAttribute("alt", rightHand);
 };
 
 const updateHandsState = (result) => {
