@@ -10,5 +10,6 @@ initializeLocalStorage();
 
 // Start the UI script for the application
 uiLogic();
+// Populate & initialize the previous games list from local storage
 populatePreviousGames();
 initializePreviousGames();

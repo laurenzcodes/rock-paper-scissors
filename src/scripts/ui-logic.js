@@ -23,10 +23,12 @@ const startGame = (mode) => {
   initializeGame(mode);
 };
 
+// Handle UI events
 const uiLogic = () => {
   const newGameMenu = document.querySelector(".new-game .menu-options");
   const gameMenu = document.querySelector(".rps .rps-menu");
 
+  // Handle the new game menu
   if (newGameMenu) {
     newGameMenu.addEventListener("click", (event) => {
       const { target } = event;
@@ -34,6 +36,7 @@ const uiLogic = () => {
       if (target.tagName.toLowerCase() === "li") {
         const action = target.getAttribute("data-action");
 
+        // Start the game when the user selects a game mode
         if (action === "pvc" || action === "cvc") {
           setCurrentMode(action);
           startGame(action);
@@ -42,6 +45,7 @@ const uiLogic = () => {
     });
   }
 
+  // Handle the game over menu (play again, main menu)
   if (gameMenu) {
     gameMenu.addEventListener("click", (event) => {
       const { target } = event;
@@ -50,6 +54,7 @@ const uiLogic = () => {
         const action = target.getAttribute("data-action");
 
         if (action === "menu") {
+          // Reset the game when returning to the main menu
           handleMainMenu();
           // Hide the game and show the main menu
           document.querySelector(".main-menu").style.display = "flex";

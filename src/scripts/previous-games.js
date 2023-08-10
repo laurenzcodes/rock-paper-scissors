@@ -26,7 +26,7 @@ const populatePreviousGames = () => {
   // Clear previous games
   gamesList.innerHTML = "";
 
-  // Generate DOM elements for each game
+  // Generate DOM elements for each game.
   gameHistory.forEach((game) => {
     const gameCard = document.createElement("div");
     gameCard.className = "game-card";
@@ -73,6 +73,7 @@ const populatePreviousGames = () => {
       rightResult.textContent = "C3PO";
     }
 
+    // Append generated elements to DOM
     left.appendChild(leftImg);
     right.appendChild(rightImg);
     resultHands.appendChild(left);

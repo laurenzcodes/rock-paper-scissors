@@ -21,25 +21,15 @@ const rightHand = document.querySelector(".rps-gameplay .player.right");
 const leftHandImg = document.querySelector(".rps-gameplay .player.left img");
 const rightHandImg = document.querySelector(".rps-gameplay .player.right img");
 
-const computeWinner = (leftHand, rightHand) => {
-  if (leftHand === rightHand) {
-    return "draw";
-  }
-
-  if (
-    (leftHand === "rock" && rightHand === "scissors") ||
-    (leftHand === "paper" && rightHand === "rock") ||
-    (leftHand === "scissors" && rightHand === "paper")
-  ) {
-    return "left";
-  }
-
-  return "right";
+const WINNING_COMBINATIONS = {
+  rock: "scissors",
+  paper: "rock",
+  scissors: "paper",
 };
 
-const getRandomHand = () => {
-  const hands = ["rock", "paper", "scissors"];
-  return hands[Math.floor(Math.random() * hands.length)];
+const computeWinner = (leftHand, rightHand) => {
+  if (leftHand === rightHand) return "draw";
+  return WINNING_COMBINATIONS[leftHand] === rightHand ? "left" : "right";
 };
 
 const getResultText = (result, mode) => {
@@ -52,10 +42,17 @@ const getResultText = (result, mode) => {
   return outcomes[result];
 };
 
+// Hand related functions
+
 const handImages = {
   rock: rockImg,
   paper: paperImg,
   scissors: scissorsImg,
+};
+
+const getRandomHand = () => {
+  const hands = ["rock", "paper", "scissors"];
+  return hands[Math.floor(Math.random() * hands.length)];
 };
 
 const updateHandsRender = (leftHand, rightHand) => {
@@ -112,53 +109,64 @@ const handleCountdownEnd = (mode) => {
   document.querySelector(".rps-menu").style.display = "flex";
 };
 
-const startRps = (mode) => {
+const startCountdown = (mode, onComplete) => {
   let countdown = 3;
-
-  const handElements = document.querySelectorAll(".rps-gameplay .player .hand");
-  handElements.forEach((hand) => hand.classList.add("bobbing"));
-
   updateCountdown(countdown);
 
   const countdownInterval = setInterval(() => {
     // eslint-disable-next-line no-plusplus
     countdown--;
-
     updateCountdown(countdown);
 
     if (countdown < 1) {
       clearInterval(countdownInterval);
-      handleCountdownEnd(mode);
-
-      handElements.forEach((hand) => hand.classList.remove("bobbing"));
+      onComplete(mode);
     }
   }, 1000);
 };
-const initializeHandPickerEventListener = () => {
-  const handPicker = document.querySelector(".hand-picker .hands");
 
-  if (handPicker) {
-    handPicker.addEventListener("click", (event) => {
-      // Check if the game is in pvc mode
-      const mode = getCurrentMode();
-      if (mode !== "pvc") return;
+const startRps = (mode) => {
+  const handElements = document.querySelectorAll(".rps-gameplay .player .hand");
+  handElements.forEach((hand) => hand.classList.add("bobbing"));
 
-      const { target } = event;
-      if (
-        target.tagName.toLowerCase() === "img" &&
-        target.hasAttribute("data-hand")
-      ) {
-        const hand = target.getAttribute("data-hand");
-        setLefthand(hand);
-        document.querySelector(".hand-picker").style.display = "none";
-        document.querySelector(".rps-gameplay").style.display = "grid";
-        startRps(mode);
-      }
-    });
-  }
+  startCountdown(mode, (endedMode) => {
+    handleCountdownEnd(endedMode);
+    handElements.forEach((hand) => hand.classList.remove("bobbing"));
+  });
 };
 
-initializeHandPickerEventListener();
+/**
+ * Sets up the hand picker click events in player-vs-computer mode.
+ */
+const setupPvcHandSelection = () => {
+  const handPicker = document.querySelector(".hand-picker .hands");
+
+  // Exit if handPicker doesn't exist.
+  if (!handPicker) return;
+
+  handPicker.addEventListener("click", (event) => {
+    // Handle selection only in player-vs-computer mode.
+    if (getCurrentMode() !== "pvc") return;
+
+    const isImageElement = event.target.tagName.toLowerCase() === "img";
+    const hasHandData = event.target.hasAttribute("data-hand");
+
+    if (isImageElement && hasHandData) {
+      // Get and set chosen hand.
+      const hand = event.target.getAttribute("data-hand");
+      setLefthand(hand);
+
+      // Transition to game play UI.
+      document.querySelector(".hand-picker").style.display = "none";
+      document.querySelector(".rps-gameplay").style.display = "grid";
+
+      // Start the pvc game.
+      startRps("pvc");
+    }
+  });
+};
+
+setupPvcHandSelection();
 
 const initializeGame = (mode) => {
   if (mode === "pvc") {
