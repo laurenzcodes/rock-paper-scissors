@@ -1,14 +1,14 @@
-const initialStore = JSON.stringify({
+const initialStore = {
   leftHand: null,
   rightHand: null,
   currentMode: null,
   gameHistory: [],
-});
+};
 
 // Initial setup of local storage if it doesn't exist
 const initializeLocalStorage = () => {
   if (!localStorage.getItem("gameState")) {
-    localStorage.setItem("gameState", initialStore);
+    localStorage.setItem("gameState", JSON.stringify(initialStore));
   }
 };
 
@@ -92,4 +92,5 @@ export {
   clearGameHistory,
   getCurrentMode,
   setCurrentMode,
+  initialStore,
 };

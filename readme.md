@@ -59,3 +59,21 @@ Breakdown of the files in the `./src` folder:
   - `previous-games.js`: Responsible for rendering previous game records.
   - `ui-logic.js`: Manages UI interactions and updates.
 - `styles`: Contains various SCSS files for specific parts of the UI.
+
+## Testing
+
+### Running Unit Tests
+
+To execute the unit tests for the project, simply run the following command:
+
+```bash
+npm t
+```
+
+### Testing Strategy Overview
+
+Please note that test coverage for the following files may appear to be limited. This is primarily because many functions within these files interact directly with the UI, making them more suitable for evaluation through integration tests (using `cypress`) rather than unit tests.
+
+- `scripts/ui-logic.js`
+- `scripts/game-logic.js`
+- `scripts/previous-games.js`

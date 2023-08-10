@@ -1,3 +1,4 @@
 {
+  //! Needed for transpiling ES6 for jest tests
   "presets": ["@parcel/babel-preset-env"]
 }
